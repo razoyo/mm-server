@@ -1,0 +1,25 @@
+{
+  "name": "mm-server",
+  "version": "1.0.0",
+  "description": "This is a little node/express application to process endpoints for Paul's hat mirror.",
+  "main": "server.js",
+  "scripts": {
+    "watch": "nodemon --harmony server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@personal.github.com:amnotafraid/mm-server.git"
+  },
+  "author": "Bessie Malek",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "lodash": "^4.17.4",
+    "morgan": "^1.8.2",
+    "nconf": "^0.8.4",
+    "nodemon": "^1.11.0"
+  }
+}
