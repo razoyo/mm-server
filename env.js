@@ -16,6 +16,12 @@ const vars = {
     export: true,
     type: Number,
   },
+  // picture path
+  PICTURE_PATH: {
+    required: true,
+    export: true,
+    type: String,
+  },  
 
 };
 _.each(vars, (envProps, envName) => {
