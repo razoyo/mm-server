@@ -10,9 +10,14 @@ This is a little Node/Express application that is designed to run on a Raspberry
 ```
 NODE_ENV=development
 PORT=3000
-PICTURE_PATH=/images/camera.jpg
+PICTURE_PATH=images/camera.jpg
 ```
 - Run the code
+For development:
 ```
 npm run watch
+```
+or:
+```
+node server.js
 ```

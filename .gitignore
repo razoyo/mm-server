@@ -36,6 +36,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+# images (this depends on where you stick your images in .env PICTURE_PATH)
+images/
+
 # Typescript v1 declaration files
 typings/
 
