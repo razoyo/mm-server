@@ -4,7 +4,7 @@ module.exports = (env) => {
   // router
   const router1 = initRouter(env, [
     './v1/barcode',
-    './v1/camera',
+    './v1/picture',
   ]);
   //
   // Mount
