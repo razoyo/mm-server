@@ -51,10 +51,13 @@ main.use(express.static(path.join(__dirname, 'dist')));
 main.use(morgan('short'));
 //
 // Use API routes
-main.use(require('./api')(env));
+main.use(require('./api')(env, env.SOCKET_PORT));
 
 // Start the HTTP server
 const server = http.createServer(main);
+// Initialize socket.io
+const socket = require('./socket')(server);
+
 server.listen(env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`\nExpress Server [PORT: ${env.PORT}] [NODE_ENV: ${env.NODE_ENV}]\n`);

@@ -10,10 +10,18 @@ This is a little Node/Express application that is designed to run on a Raspberry
 ```
 NODE_ENV=development
 PORT=3000
+SOCKET_PORT=4000
 PICTURE_PATH=images
 ```
 The picture path is the directory in the root of the project where the pictures will go. If this doesn't exist, it will be created.
  
+The SOCKET_PORT is the port the socket will look at.  If SOCKET_PORT is 4000, then Angular needs to do something like this:
+```
+import * as io from "socket.io-client";
+...
+  socket = io('http://localhost:4000');
+```
+
 - Run the code
 For development:
 ```

@@ -16,6 +16,12 @@ const vars = {
     export: true,
     type: Number,
   },
+  // PORT for socket.io
+  SOCKET_PORT: {
+    required: true,
+    export: true,
+    type: Number,
+  },
   // picture path
   PICTURE_PATH: {
     required: true,
