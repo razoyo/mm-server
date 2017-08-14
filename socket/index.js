@@ -3,7 +3,7 @@ module.exports = function (
   port
 ) {
 
-const io = require('socket.io')(server);
+  const io = require('socket.io')(server);
   server.listen(port);
   var clients = [];
 

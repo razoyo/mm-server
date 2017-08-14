@@ -49,14 +49,14 @@ main.use(express.static(path.join(__dirname, 'dist')));
 
 // Logging
 main.use(morgan('short'));
-//
+
 // Use API routes
-main.use(require('./api')(env, env.SOCKET_PORT));
+main.use(require('./api')(env));
 
 // Start the HTTP server
 const server = http.createServer(main);
 // Initialize socket.io
-const socket = require('./socket')(server);
+const socket = require('./socket')(server, env.SOCKET_PORT);
 
 server.listen(env.PORT, () => {
   // eslint-disable-next-line no-console
