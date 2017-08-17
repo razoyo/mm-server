@@ -10,9 +10,10 @@ This is a little Node/Express application that is designed to run on a Raspberry
 ```
 NODE_ENV=development
 PORT=3000
-PICTURE_PATH=images
+PICTURE_PATH=dist/assets/customer-photos
+PICTURE_SUFFIX=.jpg
 ```
-The picture path is the directory in the root of the project where the pictures will go. If this doesn't exist, it will be created.
+The PICTURE_PATH is the directory in the root of the project where the pictures will go. If this doesn't exist, it will be created. The PICTURE_SUFFIX is the suffix for the picture files.
  
 - Run the code
 For development:

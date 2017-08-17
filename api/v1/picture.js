@@ -6,10 +6,12 @@ const fs          = require('fs');
 const mkdirp      = require('mkdirp-promise');
 
 var picturePath;
+var pictureSuffix;
 
 // Init routes
 picture.init = (env, router) => {
   picturePath = env.PICTURE_PATH;
+  pictureSuffix = env.PICTURE_SUFFIX;
   if (!fs.existsSync(picturePath)) {
     fs.mkdirSync(picturePath);
   }
@@ -25,12 +27,15 @@ picture.init = (env, router) => {
 //   }
 // }
 picture.takePicture = (req) => {
+  console.log('req.body = ' + JSON.stringify(req.body, null, 2));
   if (!req.body.directory) {
     throw new Error('request body needs directory');
   }
 
   let pathDir = picturePath + '/' + req.body.directory;
   let pathName;
+
+  console.log('picturePath = ' + picturePath);
 
   return mkdirp(pathDir) // returns Promise
   .then((data) => { // data is not used here
@@ -40,7 +45,7 @@ picture.takePicture = (req) => {
     }
     let d = new Date();
     let dateSuffix = dateFormat(d, 'hMMss');
-    let name = nameBase + dateSuffix;
+    let name = nameBase + dateSuffix + pictureSuffix;
     pathName = pathDir + '/' + name;
 
     let options = '';

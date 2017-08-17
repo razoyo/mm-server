@@ -22,6 +22,12 @@ const vars = {
     export: true,
     type: String,
   },  
+  // picture suffix
+  PICTURE_SUFFIX: {
+    required: true,
+    export: true,
+    type: String,
+  },  
 
 };
 _.each(vars, (envProps, envName) => {
