@@ -6,8 +6,7 @@
 const http = require('http');
 const express = require('express');
 const path = require('path');
-// const favicon = require('serve-favicon');
-// we'll have to install serve-favicon for this to work TODO
+ const favicon = require('serve-favicon');
 
 // Express Middleware
 const morgan = require('morgan');
@@ -45,7 +44,7 @@ main.use((req, res, next) => {
 
 //Serve Angular App to Browser upon GET / request
 main.use(express.static(path.join(__dirname, 'dist')));
-//main.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')));
+main.use(favicon(path.join(__dirname, 'dist/assets', 'razoyo-favicon.gif')));
 
 // Logging
 main.use(morgan('short'));
