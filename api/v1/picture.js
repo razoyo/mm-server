@@ -17,6 +17,7 @@ picture.init = (env, router) => {
   }
   router.post('/picture', picture.takePicture.bind(this));
   router.delete('/picture/:directory', picture.deletePictureDirectory.bind(this));
+  router.put('/picture/:directory', picture.rsyncPictureDirectory.bind(this));
 };
 
 // Take picture, return path to picture
@@ -68,6 +69,47 @@ picture.takePicture = (req) => {
           }   
         }   
       );  
+    });
+  })
+  .catch(function(err) {
+    return 'Error' + (err ? `: ${err}` : '');
+  });
+};
+
+picture.rsyncPictureDirectory = (req) => {
+  console.log(`rsyncPictureDirectory: ${req.params.directory}`);
+  let pathDir = `${picturePath}/${req.params.directory}`;
+
+  return new Promise((resolve, reject) => {
+    fs.access(pathDir, fs.F_OK, (err) => {
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve(true);
+      }
+    });
+  })
+  .then((fExists) => {
+    return new Promise((resolve, reject) => {
+      if (!fExists) {
+        resolve();
+      }
+      else {
+        exec (
+          'rsync -a -rave "ssh -i /home/bmalek/.ssh/cloud-node.pem" ' + 
+          pathDir +
+          ' bitnami@ec2-54-221-218-6.compute-1.amazonaws.com:~/apps/cloud-node/dist/assets/customer-photos', 
+          function(err, data, stderr) {
+            if (err) {
+              reject(err.message.error);
+            }   
+            else {
+              resolve();
+            }   
+          }   
+        );  
+      }
     });
   })
   .catch(function(err) {
