@@ -65,7 +65,9 @@ picture.takePicture = (req) => {
             reject(err.message.error);
           }   
           else {
-            resolve(pathName);
+            let obj = {};
+            obj.path = pathName;
+            resolve(obj);
           }   
         }   
       );  
