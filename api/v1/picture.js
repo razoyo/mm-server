@@ -22,9 +22,9 @@ picture.init = (env, router) => {
 
 // Take picture, return path to picture
 // body = {
-//   directory: path,
-//   base_name: name,
-//   options: {
+//   directory: path, // required
+//   base_name: name, // optional
+//   options: {       // optional
 //     key: value
 //   }
 // }
@@ -66,7 +66,8 @@ picture.takePicture = (req) => {
           }   
           else {
             let obj = {};
-            obj.path = pathName;
+            obj.name = name;
+            obj.directory = req.body.directory;
             resolve(obj);
           }   
         }   
