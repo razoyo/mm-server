@@ -3,14 +3,15 @@
  */
 
 // Dependencies
-const http = require('http');
-const express = require('express');
-const path = require('path');
- const favicon = require('serve-favicon');
+const express       = require('express');
+const favicon       = require('serve-favicon');
+const fs            = require('fs');
+const http          = require('http');
+const path          = require('path');
 
 // Express Middleware
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
+const bodyParser    = require('body-parser');
+const morgan        = require('morgan');
 
 // Read `.env` into `process.env`
 require('dotenv').config({
@@ -44,7 +45,11 @@ main.use((req, res, next) => {
 
 //Serve Angular App to Browser upon GET / request
 main.use(express.static(path.join(__dirname, 'dist')));
-main.use(favicon(path.join(__dirname, 'dist/assets', 'razoyo-favicon.gif')));
+var faviconPath = path.join(__dirname, 'dist/assets', 'razoyo-favicon.gif');
+if (fs.existsSync(faviconPath)) {
+  main.use(favicon(faviconPath));
+}
+
 
 // Logging
 main.use(morgan('short'));

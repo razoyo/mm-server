@@ -1,9 +1,9 @@
 const picture = module.exports;
 
-const dateFormat  = require('dateformat');
-const exec        = require('child_process').exec;
-const fs          = require('fs');
-const mkdirp      = require('mkdirp-promise');
+const dateFormat    = require('dateformat');
+const exec          = require('child_process').exec;
+const fs            = require('fs');
+const mkdirp        = require('mkdirp-promise');
 
 var picturePath;
 var pictureSuffix;

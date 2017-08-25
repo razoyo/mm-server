@@ -13,7 +13,12 @@ PORT=3000
 PICTURE_PATH=dist/assets/customer-photos
 PICTURE_SUFFIX=.jpg
 ```
-The PICTURE_PATH is the directory in the root of the project where the pictures will go. If this doesn't exist, it will be created. The PICTURE_SUFFIX is the suffix for the picture files.
+The PICTURE_PATH is the directory in the root of the project where the pictures will go. If the last member of the path doesn't exist (eg. customer-photos), it will be created. The PICTURE_SUFFIX is the suffix for the picture files.
+
+*Notes if working on Mac*:  If you want to run this on your Mac instead of the Raspberry Pi:
+ - The `POST /api/picture` likely won't work because you don't have raspistill
+ - The `PUT /api/picture/:folder` likely won't work because you won't have the *.pem file for the EC2 cloud-node app on the Mac.
+ - If you don't have the Mirror App in the dist directory, the PICTURE_PATH should be set to a directory that can be made, eg. `customer-photos`. 
  
 - Run the code
 For development:
