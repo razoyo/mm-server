@@ -4,6 +4,7 @@
 
 // Dependencies
 const express       = require('express');
+const express_socket= require('express');
 const favicon       = require('serve-favicon');
 const fs            = require('fs');
 const http          = require('http');
@@ -12,6 +13,9 @@ const path          = require('path');
 // Express Middleware
 const bodyParser    = require('body-parser');
 const morgan        = require('morgan');
+
+// This app's modules
+const socket        = require('./socket');
 
 // Read `.env` into `process.env`
 require('dotenv').config({
@@ -59,8 +63,11 @@ main.use(require('./api')(env));
 // Start the HTTP server
 const server = http.createServer(main);
 
+// Start the socket server
+const app = http.createServer(express_socket);
+
 // Initialize socket.io
-const socket = require('./socket')(server, env.SOCKET_PORT);
+socket.init(app, env.SOCKET_PORT);
 
 server.listen(env.PORT, () => {
   // eslint-disable-next-line no-console

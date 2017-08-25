@@ -94,6 +94,7 @@ picture.rsyncPictureDirectory = (req) => {
 
   return new Promise((resolve, reject) => {
     fs.access(pathDir, fs.F_OK, (err) => {
+      console.log('fs.access');
       if (err) {
         reject(err);
       }
@@ -103,16 +104,18 @@ picture.rsyncPictureDirectory = (req) => {
     });
   })
   .then((fExists) => {
+    console.log(`fExists = ${fExists}`);
     return new Promise((resolve, reject) => {
       if (!fExists) {
         resolve();
       }
       else {
-        exec (
-          'rsync -a -rave "ssh -i ' + pemFile + '" ' + 
+        let cmd = 'rsync -a -rave "ssh -i ' + pemFile + '" ' + 
           pathDir +
-          ' ' + cloudUser + ':' + cloudUrl + '~/apps/cloud-node/dist/assets/customer-photos' +
-          '/' + req.params.directory, 
+          ' ' + cloudUser + '@' + cloudUrl + ':~/apps/cloud-node/dist/assets/customer-photos' +
+          '/' + req.params.directory; 
+        console.log(`cmd = ${cmd}`);
+        exec (cmd,
           function(err, data, stderr) {
             if (err) {
               reject(err.message.error);
@@ -126,6 +129,7 @@ picture.rsyncPictureDirectory = (req) => {
     });
   })
   .then(() => {
+    console.log('socket part');
     return new Promise((resolve, reject) => {
       socket.toId(req.params.socketId, 'newPictures', {
         directory: req.params.directory
@@ -134,6 +138,7 @@ picture.rsyncPictureDirectory = (req) => {
     });
   })
   .catch(function(err) {
+    console.log('catch');
     return 'Error' + (err ? `: ${err}` : '');
   });
 };
