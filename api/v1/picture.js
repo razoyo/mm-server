@@ -5,19 +5,27 @@ const exec          = require('child_process').exec;
 const fs            = require('fs');
 const mkdirp        = require('mkdirp-promise');
 
+const socket        = require('../../socket');
+
 var picturePath;
 var pictureSuffix;
+var pemFile;
+var cloudUser;
+var cloudUrl;
 
 // Init routes
 picture.init = (env, router) => {
   picturePath = env.PICTURE_PATH;
   pictureSuffix = env.PICTURE_SUFFIX;
+  pemFile = env.PEM_FILE;
+  cloudUser = env.CLOUD_USER;
+  cloudUrl = env.CLOUD_URL;
   if (!fs.existsSync(picturePath)) {
     fs.mkdirSync(picturePath);
   }
   router.post('/picture', picture.takePicture.bind(this));
   router.delete('/picture/:directory', picture.deletePictureDirectory.bind(this));
-  router.put('/picture/:directory', picture.rsyncPictureDirectory.bind(this));
+  router.put('/picture/:socketId/:directory', picture.rsyncPictureDirectory.bind(this));
 };
 
 // Take picture, return path to picture
@@ -81,6 +89,7 @@ picture.takePicture = (req) => {
 
 picture.rsyncPictureDirectory = (req) => {
   console.log(`rsyncPictureDirectory: ${req.params.directory}`);
+  console.log(`rsyncSocketId: ${req.params.socketId}`);
   let pathDir = `${picturePath}/${req.params.directory}`;
 
   return new Promise((resolve, reject) => {
@@ -100,9 +109,10 @@ picture.rsyncPictureDirectory = (req) => {
       }
       else {
         exec (
-          'rsync -a -rave "ssh -i /home/bmalek/.ssh/cloud-node.pem" ' + 
+          'rsync -a -rave "ssh -i ' + pemFile + '" ' + 
           pathDir +
-          ' bitnami@ec2-54-221-218-6.compute-1.amazonaws.com:~/apps/cloud-node/dist/assets/customer-photos', 
+          ' ' + cloudUser + ':' + cloudUrl + '~/apps/cloud-node/dist/assets/customer-photos' +
+          '/' + req.params.directory, 
           function(err, data, stderr) {
             if (err) {
               reject(err.message.error);
@@ -113,6 +123,14 @@ picture.rsyncPictureDirectory = (req) => {
           }   
         );  
       }
+    });
+  })
+  .then(() => {
+    return new Promise((resolve, reject) => {
+      socket.toId(req.params.socketId, 'newPictures', {
+        directory: req.params.directory
+      });
+      resolve();
     });
   })
   .catch(function(err) {

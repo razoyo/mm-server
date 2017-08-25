@@ -25,7 +25,6 @@ require('nconf').env().defaults({
 
 // Load environment
 const env = require('./env');
-
 // Create Express App
 const main = express();
 
@@ -59,6 +58,10 @@ main.use(require('./api')(env));
 
 // Start the HTTP server
 const server = http.createServer(main);
+
+// Initialize socket.io
+const socket = require('./socket')(server, env.SOCKET_PORT);
+
 server.listen(env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`\nExpress Server [PORT: ${env.PORT}] [NODE_ENV: ${env.NODE_ENV}]\n`);

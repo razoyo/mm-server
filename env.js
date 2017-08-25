@@ -16,6 +16,12 @@ const vars = {
     export: true,
     type: Number,
   },
+  // Socket PORT
+  SOCKET_PORT: {
+    required: true,
+    export: true,
+    type: Number,
+  },
   // picture path
   PICTURE_PATH: {
     required: true,
@@ -26,6 +32,24 @@ const vars = {
   PICTURE_SUFFIX: {
     required: true,
     export: true,
+    type: String,
+  },  
+  // *.pem file
+  PEM_FILE: {
+    required: true,
+    export: true,
+    type: String,
+  },  
+  // cloud-node User
+  CLOUD_USER: { 
+    required: true, 
+    export: true, 
+    type: String,
+  },  
+  // cloud-node URL
+  CLOUD_URL: { 
+    required: true, 
+    export: true, 
     type: String,
   },  
 

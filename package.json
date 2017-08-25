@@ -23,6 +23,7 @@
     "morgan": "^1.8.2",
     "nconf": "^0.8.4",
     "nodemon": "^1.11.0",
-    "serve-favicon": "^2.4.3"
+    "serve-favicon": "^2.4.3",
+    "socketio": "^1.0.0"
   }
 }

@@ -10,14 +10,90 @@ This is a little Node/Express application that is designed to run on a Raspberry
 ```
 NODE_ENV=development
 PORT=3000
+SOCKET_PORT=4000
 PICTURE_PATH=dist/assets/customer-photos
 PICTURE_SUFFIX=.jpg
+PEM_FILE=~/.ssh/cloud-node.pem
+CLOUD_USER=bitnami
+CLOUD_URL=ec2-54-221-218-6.compute-1.amazonaws.com
 ```
-The PICTURE_PATH is the directory in the root of the project where the pictures will go. If the last member of the path doesn't exist (eg. customer-photos), it will be created. The PICTURE_SUFFIX is the suffix for the picture files.
+<table>
+  <tbody>
+    <tr>
+      <td colspan="2">Environment Variables</td>
+    <tr>
+      <th align="center">Variable</th>
+      <th align="center">Definition</th>
+    </tr>
+    <tr>
+      <td align="left">
+			  NODE_ENV	
+      </td>
+      <td align="left">
+				A string. This will be either `development` or `production`
+      </td>
+		</tr>
+		<tr>
+      <td align="left">
+			  PORT	
+      </td>
+      <td align="left">
+				A number. This is what port the http routes will be listened to, as in POST url:PORT/route
+      </td>
+		</tr>
+		<tr>
+      <td align="left">
+				SOCKET_PORT
+      </td>
+      <td align="left">
+				A number. This is the port for the socket.
+      </td>
+		</tr>
+		<tr>
+      <td align="left">
+				PICTURE_PATH
+      </td>
+      <td align="left">
+				A string.  This is the base directory where the pictures will be put.
+      </td>
+		</tr>
+		<tr>
+      <td align="left">
+				PICTURE_SUFFIX
+      </td>
+      <td align="left">
+				A string. This is the suffix of the picture files.
+      </td>
+		</tr>
+		<tr>
+      <td align="left">
+				PEM_FILE
+      </td>
+      <td align="left">
+				A string. This is the path and file of the *.pem file for cloud-node
+      </td>
+		</tr>
+		<tr>
+      <td align="left">
+				CLOUD_NODE
+      </td>
+      <td align="left">
+				A string. This is a user for rsync (copying pictures).
+      </td>
+		</tr>
+		<tr>
+      <td align="left">
+        CLOUD_URL
+      </td>
+      <td align="left">
+				This is the URL of the cloud
+      </td>
+		</tr>
+  </tbody>
+</table>
 
 *Notes if working on Mac*:  If you want to run this on your Mac instead of the Raspberry Pi:
  - The `POST /api/picture` likely won't work because you don't have raspistill
- - The `PUT /api/picture/:folder` likely won't work because you won't have the *.pem file for the EC2 cloud-node app on the Mac.
  - If you don't have the Mirror App in the dist directory, the PICTURE_PATH should be set to a directory that can be made, eg. `customer-photos`. 
  
 - Run the code
