@@ -5,8 +5,6 @@ const exec          = require('child_process').exec;
 const fs            = require('fs');
 const mkdirp        = require('mkdirp-promise');
 
-const socket        = require('../../socket');
-
 var picturePath;
 var pictureSuffix;
 var pemFile;
@@ -25,7 +23,7 @@ picture.init = (env, router) => {
   }
   router.post('/picture', picture.takePicture.bind(this));
   router.delete('/picture/:directory', picture.deletePictureDirectory.bind(this));
-  router.put('/picture/:socketId/:directory', picture.rsyncPictureDirectory.bind(this));
+  router.put('/picture/:directory', picture.rsyncPictureDirectory.bind(this));
 };
 
 // Take picture, return path to picture
@@ -89,12 +87,10 @@ picture.takePicture = (req) => {
 
 picture.rsyncPictureDirectory = (req) => {
   console.log(`rsyncPictureDirectory: ${req.params.directory}`);
-  console.log(`rsyncSocketId: ${req.params.socketId}`);
   let pathDir = `${picturePath}/${req.params.directory}`;
 
   return new Promise((resolve, reject) => {
     fs.access(pathDir, fs.F_OK, (err) => {
-      console.log('fs.access');
       if (err) {
         reject(err);
       }
@@ -104,7 +100,6 @@ picture.rsyncPictureDirectory = (req) => {
     });
   })
   .then((fExists) => {
-    console.log(`fExists = ${fExists}`);
     return new Promise((resolve, reject) => {
       if (!fExists) {
         resolve();
@@ -114,7 +109,6 @@ picture.rsyncPictureDirectory = (req) => {
           pathDir +
           ' ' + cloudUser + '@' + cloudUrl + ':~/apps/cloud-node/dist/assets/customer-photos' +
           '/' + req.params.directory; 
-        console.log(`cmd = ${cmd}`);
         exec (cmd,
           function(err, data, stderr) {
             if (err) {
@@ -128,17 +122,7 @@ picture.rsyncPictureDirectory = (req) => {
       }
     });
   })
-  .then(() => {
-    console.log('socket part');
-    return new Promise((resolve, reject) => {
-      socket.toId(req.params.socketId, 'newPictures', {
-        directory: req.params.directory
-      });
-      resolve();
-    });
-  })
   .catch(function(err) {
-    console.log('catch');
     return 'Error' + (err ? `: ${err}` : '');
   });
 };
