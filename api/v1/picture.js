@@ -11,6 +11,30 @@ var pemFile;
 var cloudUser;
 var cloudUrl;
 
+// filesByDirFolder
+//   Input:  path, folder
+//   Output:  promise that resolves to an array of folder/filename
+function filesByDirFolder (path, folder) {
+  return new Promise((resolve, reject) => {
+    let pathDir = path + '/' + folder;
+    fs.readdir (pathDir, function(err, items) {
+      if (err) {
+        reject(err);
+      }
+      else {
+        let files = [];
+
+        if (items) {
+          for (let i = 0; i < items.length; i++) {
+            files.push(folder + '/' + items[i]);
+          }
+        }
+        resolve(files);
+      }
+    });
+  });
+};
+
 // Init routes
 picture.init = (env, router) => {
   picturePath = env.PICTURE_PATH;
@@ -122,7 +146,10 @@ picture.rsyncPictureDirectory = (req) => {
       }
     });
   })
-  .catch(function(err) {
+  .then(() => {
+    return filesByDirFolder(picturePath, req.params.directory);
+  })
+  .catch((err) => {
     return 'Error' + (err ? `: ${err}` : '');
   });
 };
