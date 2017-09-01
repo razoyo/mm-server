@@ -149,6 +149,13 @@ picture.rsyncPictureDirectory = (req) => {
   .then(() => {
     return filesByDirFolder(picturePath, req.params.directory);
   })
+  .then((files) => {
+    return new Promise((resolve, reject) => {
+      let obj = {};
+      obj.files = files;
+      resolve(obj);
+    });
+  })
   .catch((err) => {
     return 'Error' + (err ? `: ${err}` : '');
   });
