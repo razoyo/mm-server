@@ -59,7 +59,7 @@ picture.init = (env, router) => {
 //   }
 // }
 picture.takePicture = (req) => {
-  console.log('req.body = ' + JSON.stringify(req.body, null, 2));
+  console.log('takePicture req.body = ' + JSON.stringify(req.body, null, 2));
   if (!req.body.directory) {
     throw new Error('request body needs directory');
   }
@@ -112,7 +112,6 @@ picture.takePicture = (req) => {
 picture.rsyncPictureDirectory = (req) => {
   console.log(`rsyncPictureDirectory: ${req.params.directory}`);
   let pathDir = `${picturePath}/${req.params.directory}`;
-
   return new Promise((resolve, reject) => {
     fs.access(pathDir, fs.F_OK, (err) => {
       if (err) {
@@ -131,8 +130,8 @@ picture.rsyncPictureDirectory = (req) => {
       else {
         let cmd = 'rsync -a -rave "ssh -i ' + pemFile + '" ' + 
           pathDir +
-          ' ' + cloudUser + '@' + cloudUrl + ':~/apps/cloud-node/dist/assets/customer-photos' +
-          '/' + req.params.directory; 
+          ' ' + cloudUser + '@' + cloudUrl + ':~/apps/cloud-node/dist/assets/customer-photos';
+//        console.log('cmd = ' + cmd);
         exec (cmd,
           function(err, data, stderr) {
             if (err) {
