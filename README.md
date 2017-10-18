@@ -2,20 +2,26 @@
 
 This is a little Node/Express application that is designed to run on a Raspberry Pi.  It takes a picture of a barcode and reads the barcode in the picture.
 
+## Requirements
+- You should be running Node 6+ 
+
 ## Install
 
-- Clone the repository
+- Clone the repository with git
+- cd into the mm-server directory it creates
 - npm install
-- Make the .env file:
+- use 'npm run watch' to run on your environment
+- go to localhost:3000 on your browser
+- Make sure the .env file downloads with the clone. If it doesn't, it should look like this: 
 ```
-NODE_ENV=development
+E_ENV=development
 PORT=3000
-SOCKET_PORT=4000
+SOCKET_PORT=3200
 PICTURE_PATH=dist/assets/customer-photos
 PICTURE_SUFFIX=.jpg
 PEM_FILE=~/.ssh/cloud-node.pem
 CLOUD_USER=bitnami
-CLOUD_URL=ec2-54-221-218-6.compute-1.amazonaws.com
+CLOUD_URL=localhost:5000
 ```
 <table>
   <tbody>
